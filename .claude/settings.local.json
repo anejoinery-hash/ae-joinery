@@ -1,0 +1,32 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(npm install *)",
+      "PowerShell(winget --version)",
+      "Bash(where.exe node *)",
+      "Bash(where.exe npm *)",
+      "PowerShell(Get-Command node -ErrorAction SilentlyContinue)",
+      "PowerShell(Get-Command npm -ErrorAction SilentlyContinue)",
+      "Bash(tasklist)",
+      "Bash(ls -la \"/c/Users/Aiman/AppData/Local/Temp/\" 2>&1 | grep -iE \"footer|header|tailwind|walkin|schema|env|page|globals|route|readme|download|supabase|sitemap\")",
+      "Bash(find \"/c/Users/Aiman\" -maxdepth 4 -type f -newermt '-15 minutes' \\\\\\( -iname \"*.jpg\" -o -iname \"*.jpeg\" -o -iname \"*.png\" -o -iname \"*.webp\" \\\\\\) 2>/dev/null | grep -v \"AppData/Local/Temp/claude\" | head -50)",
+      "Bash(curl -s http://localhost:3000/)",
+      "Bash(curl -s http://localhost:3000/_next/static/css/*.css)",
+      "Bash(curl -sv http://localhost:3000/)",
+      "Bash(PATH='/c/Program Files/nodejs:__TRACKED_VAR__' npm run dev)",
+      "Bash(curl -s -o /dev/null -w \"%{http_code}\\\\n\" http://localhost:3000/)",
+      "Bash(mkdir -p \"C:\\\\Users\\\\Aiman\\\\Favorites\\\\Downloads\\\\ae-joinery\\\\app\\\\areas-we-serve\\\\[slug]\")",
+      "Bash(curl -s -o /dev/null -w \"%{http_code}\" http://localhost:3000/)",
+      "Bash(\"/c/Program Files/nodejs/node.exe\" \"/c/Users/Aiman/AppData/Local/Temp/claude/C--Users-Aiman-Favorites-Downloads-ae-joinery/466e4631-90af-4800-823f-e2fba16ad2c7/scratchpad/font-swap.js\")",
+      "Bash(taskkill //F //IM node.exe)",
+      "Bash(sort -k9)",
+      "Bash(cp '__TRACKED_VAR__/WhatsApp Image 2026-08-07 at 12.18.43 AM \\(3\\).jpeg' kitchen_sage_before_wide.jpg)",
+      "Bash(cp '__TRACKED_VAR__/WhatsApp Image 2026-08-07 at 12.18.42 AM.jpeg' kitchen_sage_before_cooktop.jpg)",
+      "Bash(cp '__TRACKED_VAR__/WhatsApp Image 2026-08-07 at 12.18.43 AM \\(2\\).jpeg' kitchen_sage_wide.jpg)",
+      "Bash(cp '__TRACKED_VAR__/WhatsApp Image 2026-08-07 at 12.18.42 AM \\(1\\).jpeg' kitchen_sage_cooktop.jpg)",
+      "Bash(cp '__TRACKED_VAR__/WhatsApp Image 2026-08-07 at 12.18.42 AM \\(2\\).jpeg' kitchen_sage_bench.jpg)",
+      "Bash(curl -s -o /dev/null -w \"HTTP %{http_code}\\\\n\" http://localhost:3000/)",
+      "Bash(curl -s -o /dev/null -w \"current: %{http_code}\\\\n\" http://localhost:3000/)"
+    ]
+  }
+}
