@@ -3,6 +3,7 @@ import { Manrope, IBM_Plex_Mono, Roboto_Slab } from "next/font/google";
 import "./globals.css";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
+import Script from "next/script";
 
 // Single type family for everything but the wordmark and the eyebrow labels:
 // headings, body copy, buttons, and nav all pull from this one variable at
@@ -90,6 +91,18 @@ export default function RootLayout({
         <Header />
         <main>{children}</main>
         <Footer />
+      <Script
+          src="https://www.googletagmanager.com/gtag/js?id=G-YVH6CV9LEJ"
+          strategy="afterInteractive"
+        />
+        <Script id="google-analytics" strategy="afterInteractive">
+          {`
+            window.dataLayer = window.dataLayer || [];
+            function gtag(){dataLayer.push(arguments);}
+            gtag('js', new Date());
+            gtag('config', 'G-YVH6CV9LEJ');
+          `}
+        </Script>
       </body>
     </html>
   );
