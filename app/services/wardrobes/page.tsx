@@ -1,13 +1,12 @@
+import Image from "next/image";
 import Link from "next/link";
 import type { Metadata } from "next";
 import QuoteForm from "@/components/QuoteForm";
-import Image from "next/image";
 import PhotoMarquee from "@/components/PhotoMarquee";
 import PhotoGallery from "@/components/PhotoGallery";
 
 const MARQUEE_IMAGES = [
   "/images/portfolio/wardrobe_shaker_brass.jpg",
-  "/images/portfolio/wardrobe_mirror_black.jpg",
   "/images/portfolio/walkin_dressing_room.jpg",
   "/images/portfolio/wardrobe_2.jpg",
   "/images/portfolio/hero.jpg",
@@ -19,16 +18,12 @@ const GALLERY_IMAGES = [
     alt: "Four-door white shaker wardrobe with brass pull handles",
   },
   {
-    src: "/images/portfolio/wardrobe_mirror_black.jpg",
-    alt: "Black-framed mirrored sliding wardrobe doors in a bedroom",
-  },
-  {
     src: "/images/portfolio/walkin_dressing_room.jpg",
     alt: "Walk-in dressing room with fluted vanity and mirrored sliding doors",
   },
   {
     src: "/images/portfolio/wardrobe_2.jpg",
-    alt: "Four-panel mirrored sliding door wardrobe by A&E Joinery",
+    alt: "Two-panel timber-look sliding door wardrobe by A&E Joinery",
   },
   {
     src: "/images/portfolio/hero.jpg",
@@ -146,14 +141,17 @@ export default function WardrobesPage() {
               </Link>
             </div>
           </div>
-          <div className="relative aspect-[4/3] rounded-sharp overflow-hidden border border-line">
+          {/* 3:4 matches the source image exactly, so nothing is cropped and
+              the full wardrobe stays sharp at native resolution. */}
+          <div className="relative aspect-[3/4] rounded-sharp overflow-hidden border border-line">
             <Image
-              src="/images/portfolio/wardrobe_mirror_black.jpg"
-              alt="Black-framed mirrored sliding wardrobe doors by A&E Joinery"
+              src="/images/portfolio/wardrobe_2.jpg"
+              alt="Two-panel timber-look sliding door wardrobe by A&E Joinery"
               fill
               priority
+              quality={90}
               className="object-cover"
-              sizes="(max-width: 1024px) 100vw, 50vw"
+              sizes="(max-width: 1024px) 100vw, 560px"
             />
           </div>
         </div>

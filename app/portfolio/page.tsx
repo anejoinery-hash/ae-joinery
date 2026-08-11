@@ -31,12 +31,6 @@ const PROJECTS = [
     category: "Custom joinery",
   },
   {
-    src: "/images/portfolio/wardrobe_mirror_black.jpg",
-    alt: "Black-framed mirrored sliding wardrobe doors in a bedroom",
-    title: "Black-framed mirrored sliders",
-    category: "Wardrobes",
-  },
-  {
     src: "/images/portfolio/media_unit.jpg",
     alt: "Floating white shaker media unit beneath a wall-mounted TV",
     title: "Floating media unit",
@@ -56,8 +50,8 @@ const PROJECTS = [
   },
   {
     src: "/images/portfolio/wardrobe_2.jpg",
-    alt: "Four-panel mirrored sliding door wardrobe by A&E Joinery",
-    title: "Mirrored sliding wardrobe",
+    alt: "Two-panel timber-look sliding door wardrobe by A&E Joinery",
+    title: "Timber-look sliding wardrobe",
     category: "Wardrobes",
   },
   {
