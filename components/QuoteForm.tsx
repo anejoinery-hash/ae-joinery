@@ -2,8 +2,12 @@
 
 import { useState, FormEvent } from "react";
 
+const FALLBACK_ERROR =
+  "Something went wrong — call us on 0414 711 741 instead, or try again.";
+
 export default function QuoteForm() {
   const [status, setStatus] = useState<"idle" | "sending" | "sent" | "error">("idle");
+  const [errorMessage, setErrorMessage] = useState(FALLBACK_ERROR);
 
   async function handleSubmit(e: FormEvent<HTMLFormElement>) {
     e.preventDefault();
@@ -17,10 +21,30 @@ export default function QuoteForm() {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(data),
       });
-      if (!res.ok) throw new Error();
+
+      if (!res.ok) {
+        // Show what the server actually said, so a visitor gets a useful next
+        // step instead of a generic failure. The form keeps their answers.
+        let message = FALLBACK_ERROR;
+        try {
+          const payload = await res.json();
+          if (typeof payload?.error === "string" && payload.error) {
+            message = payload.error;
+          }
+        } catch {
+          // No JSON body — keep the fallback.
+        }
+        setErrorMessage(message);
+        setStatus("error");
+        return;
+      }
+
       setStatus("sent");
       form.reset();
     } catch {
+      setErrorMessage(
+        "We couldn't reach our server — check your connection, or call us on 0414 711 741."
+      );
       setStatus("error");
     }
   }
@@ -76,8 +100,8 @@ export default function QuoteForm() {
         {status === "sending" ? "Sending..." : "Request a free measure & quote"}
       </button>
       {status === "error" && (
-        <p className="text-xs text-paper-dim">
-          Something went wrong — call us on 0414 711 741 instead, or try again.
+        <p role="alert" className="text-xs text-paper-dim">
+          {errorMessage}
         </p>
       )}
     </form>
