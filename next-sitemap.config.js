@@ -23,5 +23,7 @@ module.exports = {
   changefreq: "weekly",
   // /blog is a "Coming soon." placeholder with no posts; keep it out of the
   // sitemap (it's also noindex) so it isn't offered up as thin content.
-  exclude: ["/blog"],
+  // /icon.png is the favicon, which Next serves as a route — it is an image,
+  // not a page, so it does not belong in a page sitemap.
+  exclude: ["/blog", "/icon.png"],
 };
