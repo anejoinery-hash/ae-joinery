@@ -21,6 +21,27 @@ function supabaseEnvNames(): string[] {
     .sort();
 }
 
+/**
+ * Describes the SHAPE of the configured URL without ever echoing it.
+ *
+ * The value is a NEXT_PUBLIC_ one, but a mistyped entry could be a Postgres
+ * connection string, which carries a password — so report only characteristics
+ * that identify the mistake, never the text itself.
+ */
+function urlShape(raw: string | undefined) {
+  if (!raw) return null;
+  const trimmed = raw.trim();
+  return {
+    length: raw.length,
+    startsWithHttps: trimmed.startsWith("https://"),
+    endsWithSupabaseCo: /\.supabase\.co\/?$/.test(trimmed),
+    hasSurroundingWhitespace: raw !== trimmed,
+    hasQuoteCharacters: /["']/.test(raw),
+    hasTrailingSlash: trimmed.endsWith("/"),
+    looksLikePostgresConnectionString: /^postgres/i.test(trimmed),
+  };
+}
+
 /** Hostname of the configured Supabase URL, or null if it isn't a valid URL. */
 function supabaseHost(): string | null {
   try {
@@ -61,6 +82,7 @@ export async function GET() {
       {
         ok: false,
         problem: "malformed_supabase_url",
+        urlShape: urlShape(process.env.NEXT_PUBLIC_SUPABASE_URL),
         fix:
           "NEXT_PUBLIC_SUPABASE_URL is not a valid URL. It should look like " +
           "https://<project-ref>.supabase.co — copy it from Supabase under " +
