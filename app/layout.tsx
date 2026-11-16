@@ -4,6 +4,8 @@ import "./globals.css";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import Script from "next/script";
+import { REGIONS } from "@/lib/regions";
+import { SITE_URL } from "@/lib/site";
 
 // Single type family for everything but the wordmark and the eyebrow labels:
 // headings, body copy, buttons, and nav all pull from this one variable at
@@ -31,7 +33,7 @@ const robotoSlab = Roboto_Slab({
   display: "swap",
 });
 
-const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://aejoinery.com.au";
+const siteUrl = SITE_URL;
 
 export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),
@@ -46,6 +48,18 @@ export const metadata: Metadata = {
     locale: "en_AU",
     url: siteUrl,
     siteName: "A&E Joinery",
+    images: [
+      {
+        url: "/og.jpg",
+        width: 1200,
+        height: 630,
+        alt: "Walk-in dressing room with mirrored sliding wardrobe doors and a fluted vanity unit, built by A&E Joinery",
+      },
+    ],
+  },
+  twitter: {
+    card: "summary_large_image",
+    images: ["/og.jpg"],
   },
   alternates: {
     canonical: "/",
@@ -59,16 +73,25 @@ export default function RootLayout({
 }) {
   const jsonLd = {
     "@context": "https://schema.org",
-    "@type": "LocalBusiness",
+    // More specific than LocalBusiness, and still a valid subtype of it.
+    "@type": "HomeAndConstructionBusiness",
+    "@id": `${siteUrl}/#business`,
     name: "A&E Joinery",
-    image: `${siteUrl}/images/logo.png`,
+    description:
+      "Custom built-in wardrobes and joinery, measured, built, and installed across Greater Sydney.",
+    image: `${siteUrl}/og.jpg`,
+    logo: `${siteUrl}/images/logo.png`,
     telephone: "+61414711741",
     email: "anejoinery@gmail.com",
     url: siteUrl,
-    areaServed: {
-      "@type": "City",
-      name: "Sydney",
-    },
+    // The regions the site actually has pages for, so the markup matches the content.
+    areaServed: [
+      { "@type": "City", name: "Sydney" },
+      ...REGIONS.map((region) => ({
+        "@type": "AdministrativeArea",
+        name: `${region.name}, Sydney`,
+      })),
+    ],
     address: {
       "@type": "PostalAddress",
       addressLocality: "Sydney",

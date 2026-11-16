@@ -1,6 +1,8 @@
 import Image from "next/image";
 import Link from "next/link";
 import type { Metadata } from "next";
+import JsonLd from "@/components/JsonLd";
+import { breadcrumbList } from "@/lib/schema";
 import QuoteForm from "@/components/QuoteForm";
 import PhotoMarquee from "@/components/PhotoMarquee";
 import PhotoGallery from "@/components/PhotoGallery";
@@ -112,6 +114,11 @@ const FAQS = [
 export default function WardrobesPage() {
   return (
     <>
+      <JsonLd data={breadcrumbList([
+        { name: "Home", path: "/" },
+        { name: "Services", path: "/services" },
+        { name: "Built-In Wardrobes", path: "/services/wardrobes" },
+      ])} />
       {/* HERO */}
       <section className="pt-40 pb-24 px-5 sm:px-8">
         <div className="max-w-6xl mx-auto grid lg:grid-cols-2 gap-10 items-center">
