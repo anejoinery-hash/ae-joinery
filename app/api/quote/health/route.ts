@@ -10,6 +10,17 @@ export const dynamic = "force-dynamic";
 
 const NETWORK_FAILURE = /fetch failed|ENOTFOUND|ECONNREFUSED|getaddrinfo|ETIMEDOUT/i;
 
+/**
+ * Names of the Supabase-related environment variables this deployment has.
+ * Names only — never values — so it is safe to read in a browser. Useful when
+ * an integration sets variables under names the code doesn't read.
+ */
+function supabaseEnvNames(): string[] {
+  return Object.keys(process.env)
+    .filter((name) => /SUPABASE|POSTGRES/i.test(name))
+    .sort();
+}
+
 /** Hostname of the configured Supabase URL, or null if it isn't a valid URL. */
 function supabaseHost(): string | null {
   try {
@@ -34,6 +45,7 @@ export async function GET() {
         ok: false,
         problem: "missing_environment_variables",
         missing,
+        supabaseEnvVarsPresent: supabaseEnvNames(),
         fix:
           "In Vercel: Settings > Environment Variables. Add the missing " +
           "variable(s) from .env.local.example with the values from your " +
@@ -91,6 +103,7 @@ export async function GET() {
           ok: false,
           problem: "supabase_unreachable",
           supabaseHost: host,
+          supabaseEnvVarsPresent: supabaseEnvNames(),
           message: error.message,
           fix:
             "Check that NEXT_PUBLIC_SUPABASE_URL points at your Supabase " +
@@ -129,6 +142,7 @@ export async function GET() {
         ok: false,
         problem: "supabase_unreachable",
         supabaseHost: host,
+        supabaseEnvVarsPresent: supabaseEnvNames(),
         message: err instanceof Error ? err.message : String(err),
         fix:
           "Check that NEXT_PUBLIC_SUPABASE_URL points at your Supabase " +
