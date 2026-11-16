@@ -17,7 +17,7 @@ const NETWORK_FAILURE = /fetch failed|ENOTFOUND|ECONNREFUSED|getaddrinfo|ETIMEDO
  */
 function supabaseEnvNames(): string[] {
   return Object.keys(process.env)
-    .filter((name) => /SUPABASE|POSTGRES/i.test(name))
+    .filter((name) => /SUPABASE|POSTGRES|RESEND/i.test(name))
     .sort();
 }
 
@@ -155,6 +155,8 @@ export async function GET() {
       ok: true,
       supabaseConfigured: true,
       supabaseHost: host,
+      // The email notification is the path that actually reaches a person.
+      emailConfigured: Boolean(process.env.RESEND_API_KEY),
       leadsTableReachable: true,
       note: "The quote form can reach the leads table.",
     });
