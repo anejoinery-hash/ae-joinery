@@ -59,9 +59,7 @@ export async function POST(request: Request) {
     console.error("[quote] Unsaved lead:", JSON.stringify(lead));
     return NextResponse.json(
       {
-        error:
-          "Our quote form isn't accepting submissions right now. " +
-          "Please call 0414 711 741 or email anejoinery@gmail.com.",
+        error: "Our quote form isn't accepting submissions right now.",
       },
       { status: 503 }
     );
@@ -90,9 +88,7 @@ export async function POST(request: Request) {
 
       return NextResponse.json(
         {
-          error:
-            "We couldn't save your request. " +
-            "Please call 0414 711 741 or email anejoinery@gmail.com.",
+          error: "We couldn't save your request.",
         },
         { status: 500 }
       );
@@ -102,9 +98,7 @@ export async function POST(request: Request) {
     console.error("[quote] Unsaved lead:", JSON.stringify(lead));
     return NextResponse.json(
       {
-        error:
-          "Something went wrong on our end. " +
-          "Please call 0414 711 741 or email anejoinery@gmail.com.",
+        error: "Something went wrong on our end.",
       },
       { status: 500 }
     );
