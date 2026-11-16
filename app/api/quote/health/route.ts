@@ -157,6 +157,8 @@ export async function GET() {
       supabaseHost: host,
       // The email notification is the path that actually reaches a person.
       emailConfigured: Boolean(process.env.RESEND_API_KEY),
+      // Names only. Shows what an integration provisioned, under what name.
+      envVarsPresent: supabaseEnvNames(),
       leadsTableReachable: true,
       note: "The quote form can reach the leads table.",
     });
