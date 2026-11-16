@@ -8,6 +8,12 @@ export const metadata: Metadata = {
   alternates: {
     canonical: "/blog",
   },
+  // Nothing here but a "Coming soon." placeholder — don't let it be indexed as
+  // thin content. Remove this once there are real posts.
+  robots: {
+    index: false,
+    follow: true,
+  },
 };
 
 export default function BlogPage() {

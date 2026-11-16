@@ -1,5 +1,7 @@
 import Link from "next/link";
 import type { Metadata } from "next";
+import JsonLd from "@/components/JsonLd";
+import { breadcrumbList } from "@/lib/schema";
 import { notFound } from "next/navigation";
 import { REGIONS, getRegion } from "@/lib/regions";
 import QuoteForm from "@/components/QuoteForm";
@@ -47,6 +49,13 @@ export default function RegionPage({ params }: { params: { slug: string } }) {
 
   return (
     <>
+      <JsonLd
+        data={breadcrumbList([
+          { name: "Home", path: "/" },
+          { name: "Areas We Serve", path: "/areas-we-serve" },
+          { name: region.name, path: `/areas-we-serve/${region.slug}` },
+        ])}
+      />
       {/* HERO */}
       <section className="pt-40 pb-24 px-5 sm:px-8">
         <div className="max-w-6xl mx-auto grid lg:grid-cols-2 gap-10 items-center">

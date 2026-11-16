@@ -1,5 +1,7 @@
 import Link from "next/link";
 import type { Metadata } from "next";
+import JsonLd from "@/components/JsonLd";
+import { breadcrumbList } from "@/lib/schema";
 import QuoteForm from "@/components/QuoteForm";
 import Image from "next/image";
 import PhotoMarquee from "@/components/PhotoMarquee";
@@ -94,6 +96,11 @@ const FAQS = [
 export default function CustomJoineryPage() {
   return (
     <>
+      <JsonLd data={breadcrumbList([
+        { name: "Home", path: "/" },
+        { name: "Services", path: "/services" },
+        { name: "Custom Joinery", path: "/services/custom-joinery" },
+      ])} />
       {/* HERO */}
       <section className="pt-40 pb-24 px-5 sm:px-8">
         <div className="max-w-6xl mx-auto grid lg:grid-cols-2 gap-10 items-center">

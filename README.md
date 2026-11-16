@@ -13,10 +13,27 @@ Built with Next.js (App Router), TypeScript, Tailwind CSS, and Supabase.
 - SEO basics: metadata, Open Graph, LocalBusiness JSON-LD schema, sitemap
   generation on build
 
-**Not built yet** (next phases): individual service pages, location/suburb
-pages, portfolio page, blog, about/FAQ/privacy/terms, and an admin area to
-manage leads/portfolio/blog content in Supabase. Say the word and I'll
-keep going page by page.
+- A `/api/quote/health` self-check for diagnosing a form that isn't saving
+
+**Not built yet** (next phases): email notification when a lead comes in (needs
+an email integration provisioned on Vercel first — see below), an admin area to
+manage leads/portfolio/blog content in Supabase, portfolio and blog content.
+
+### Getting emailed when a lead comes in
+
+Leads currently land in the Supabase `leads` table only. To also get an email,
+provision an email provider through the Vercel Marketplace first — it sets the
+API key up as an environment variable automatically:
+
+```bash
+vercel link
+vercel integration discover --category messaging
+vercel integration add <provider> --yes
+```
+
+Run these from your own machine, where you're logged in to Vercel. Once the
+provider is installed, the send step goes in `app/api/quote/route.ts` where the
+lead is saved.
 
 ## Running it yourself
 
@@ -40,6 +57,23 @@ Open http://localhost:3000.
    `portfolio` and `blog`.
 3. Go to **Settings > API** and copy your **Project URL** and **anon public
    key** into `.env.local` (and later, into Vercel's environment variables).
+
+## If the quote form isn't working
+
+Open **https://your-site/api/quote/health** in a browser. It tells you exactly
+what's wrong, and never shows your keys:
+
+| What it says | What to do |
+| --- | --- |
+| `missing_environment_variables` | The Supabase URL/key aren't set on the deployment. Add them in Vercel under **Settings > Environment Variables**, then redeploy. |
+| `leads_table_missing` | `supabase/schema.sql` was never run. Paste it into the Supabase **SQL Editor** and run it. |
+| `supabase_unreachable` | The Supabase URL is wrong, or the project is paused (free projects pause after inactivity — resume it in the dashboard). |
+| `supabase_error` | Something else; the message says what. Usually a missing Row Level Security policy. |
+| `ok: true` | The form can reach the leads table — submissions are saving. |
+
+Every failed submission is also written to the Vercel runtime logs with the
+visitor's details (`[quote] Unsaved lead: ...`), so a lead is never lost to a
+misconfiguration — you can still read it back and call them.
 
 ## Deploying to Vercel
 
