@@ -3,10 +3,21 @@ import { createClient } from "@supabase/supabase-js";
 
 // A small self-check for the quote form, so a broken form can be diagnosed by
 // opening /api/quote/health in a browser instead of digging through logs.
-// It reports only whether things are configured — never any key or URL value.
+// It never reports a key. It does report the Supabase hostname, which is a
+// NEXT_PUBLIC_ value shipped to browsers by design, so that a wrong URL can be
+// told apart from a paused project.
 export const dynamic = "force-dynamic";
 
 const NETWORK_FAILURE = /fetch failed|ENOTFOUND|ECONNREFUSED|getaddrinfo|ETIMEDOUT/i;
+
+/** Hostname of the configured Supabase URL, or null if it isn't a valid URL. */
+function supabaseHost(): string | null {
+  try {
+    return new URL(process.env.NEXT_PUBLIC_SUPABASE_URL || "").hostname;
+  } catch {
+    return null;
+  }
+}
 
 export async function GET() {
   const hasUrl = Boolean(process.env.NEXT_PUBLIC_SUPABASE_URL);
@@ -27,6 +38,21 @@ export async function GET() {
           "In Vercel: Settings > Environment Variables. Add the missing " +
           "variable(s) from .env.local.example with the values from your " +
           "Supabase project (Settings > API), then redeploy.",
+      },
+      { status: 503 }
+    );
+  }
+
+  const host = supabaseHost();
+  if (!host) {
+    return NextResponse.json(
+      {
+        ok: false,
+        problem: "malformed_supabase_url",
+        fix:
+          "NEXT_PUBLIC_SUPABASE_URL is not a valid URL. It should look like " +
+          "https://<project-ref>.supabase.co — copy it from Supabase under " +
+          "Settings > API, then redeploy.",
       },
       { status: 503 }
     );
@@ -64,6 +90,7 @@ export async function GET() {
         {
           ok: false,
           problem: "supabase_unreachable",
+          supabaseHost: host,
           message: error.message,
           fix:
             "Check that NEXT_PUBLIC_SUPABASE_URL points at your Supabase " +
@@ -78,6 +105,7 @@ export async function GET() {
         {
           ok: false,
           problem: "supabase_error",
+          supabaseHost: host,
           code: error.code ?? null,
           message: error.message,
           fix:
@@ -91,6 +119,7 @@ export async function GET() {
     return NextResponse.json({
       ok: true,
       supabaseConfigured: true,
+      supabaseHost: host,
       leadsTableReachable: true,
       note: "The quote form can reach the leads table.",
     });
@@ -99,6 +128,7 @@ export async function GET() {
       {
         ok: false,
         problem: "supabase_unreachable",
+        supabaseHost: host,
         message: err instanceof Error ? err.message : String(err),
         fix:
           "Check that NEXT_PUBLIC_SUPABASE_URL points at your Supabase " +
